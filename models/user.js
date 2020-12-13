@@ -1,0 +1,1 @@
+export default (mongoose) => mongoose.model('User', mongoose.Schema({ login: String, password: String }))
