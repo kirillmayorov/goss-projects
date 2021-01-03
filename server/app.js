@@ -1,5 +1,5 @@
 export default (express, bodyParser, createReadStream, crypto, http, mongoose, User, cors) => {
-    const user  = "itmo287667";
+    const user = "itmo288706";
     const plain = { 'Content-Type': 'text/plain; charset=utf-8' }
     const app = express();
     app
