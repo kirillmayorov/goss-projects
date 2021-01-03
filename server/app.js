@@ -10,11 +10,41 @@ export default (express, bodyParser, createReadStream, crypto, http, mongoose, U
         res.set(plain);
         createReadStream(import.meta.url.substring(7)).pipe(res);
     })
+    .get('/users/:url', async (req, res) => {
+        const URL = req.body.URL;
+        try {
+            await mongoose.connect(URL, {
+                useNewUrlParser: true,
+                useUnifiedTopology: true,
+            });
+        } catch (error) {
+            console.log('error mongo', error);
+        }
+        const users = await User.find();
+        res.locals.usersTitle = 'Users title';
+        res.format({
+            'aplication/json': () => res.json(users),
+            'text/html': () => res.render('users', { users }),
+        });
+    })
     .get('/sha1/:input', (req, res) => {
         const { input } = req.params;
         const shasum = crypto.createHash('sha1');
         shasum.update(input);
         res.send(shasum.digest('hex'));
+    })
+    .get('/fetch/', (req, res) => {
+        res.render('fetch')
+    })
+    .get('/promise/', (req, res) => {
+        res.set(plain);
+        res.end("function task(x) {return new Promise((resolve, reject) => x < 18 ? resolve('yes') : reject('no') ); }")
+    })
+    .post('/render/', (req, res) => {
+        const data = req.body;
+        const url = req.params.addr;
+        console.log('data', data);
+        res.render('index', { data });
     })
     .post('/insert/', async (req, res) => {
         try {
@@ -41,6 +71,7 @@ export default (express, bodyParser, createReadStream, crypto, http, mongoose, U
         }
     })
     .all('*', (req, res) => res.send(user))
-    .use((error, req, res, next) => res.status(500).set(cors).send('Error'));
+    .use((error, req, res, next) => console.log(error) && res.status(500).set(cors).send('Error'))
+    .set('view engine', 'pug');
     return app;
 }

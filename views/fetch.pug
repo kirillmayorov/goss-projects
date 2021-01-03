@@ -1,0 +1,13 @@
+html(lang="en")
+	head
+		meta(charset='utf-8')
+		meta(name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no')
+		meta(name='author' content='yuriiitymchenko')
+		title xxx
+	body
+		input(type="text", id="inp")
+		button(id="bt", onClick="getFetch()") Send
+	script
+		| async function getFetch() {
+		| let adress = document.getElementById("inp").value;
+		| await fetch(adress).then((response) => { response.text().then(function (text) { document.getElementById("inp").value = text;});})}
