@@ -6,7 +6,7 @@
   "author": "Kirill Mayorov",
   "license": "MIT",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.jsпше"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
